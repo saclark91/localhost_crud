@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="TestApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Frontend</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/app.js"></script> <!-- Updated script source -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body ng-controller="TestController">
+    <div class="container">
+        <h1>CRUD Frontend</h1>
+        
+        <!-- Create -->
+        <h2>Create</h2>
+        <form ng-submit="createRecord()">
+            <input type="text" ng-model="newTestValue" placeholder="Name">
+            <button type="submit">Create</button>
+        </form>
+
+        <!-- Read -->
+        <h2>Read</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="record in records">
+                    <td>{{ record.test_id }}</td>
+                    <td>{{ record.test_value }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+        <!-- Update -->
+        <h2>Update</h2>
+        <form ng-submit="updateRecord(+updateId, updateName)">
+            <input type="text" ng-model="updateId" placeholder="ID">
+            <input type="text" ng-model="updateName" placeholder="Name">
+            <button type="submit">Update</button>
+        </form>
+
+
+        <!-- Delete -->
+        <h2>Delete</h2>
+        <form ng-submit="deleteRecord(+deleteId)">
+            <input type="text" ng-model="deleteId" placeholder="Record ID to delete">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</body>
+</html>
