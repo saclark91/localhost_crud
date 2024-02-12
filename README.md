@@ -34,9 +34,10 @@ This is a simple CRUD (Create, Read, Update, Delete) application built using Ang
 The SQL Server database used in this application has the following schema:
 
 - **Table Name**: TestTable
-- **Columns**:
-  - **test_id**: Primary key of type INT, auto-incremented, not null.
-  - **test_description**: Description of type VARCHAR(50).
+| **Column Name** | **DATA TYPE** |
+|-|-|
+| **test_id** | `INT PRIMARY KEY AUTO_INCREMENT`` |
+| **test_value** | `VARCHAR(50)`` |
 
 ## Getting Started
 
