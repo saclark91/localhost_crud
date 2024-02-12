@@ -35,7 +35,7 @@ The SQL Server database used in this application has the following schema:
 
 - **Table Name**: TestTable
 
-| **Column Name** | **DATA TYPE** |
+| **Column Name** | **Data Type** |
 |-|-|
 | **test_id** | `INT PRIMARY KEY AUTO_INCREMENT` |
 | **test_value** | `VARCHAR(50)` |
