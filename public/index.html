@@ -12,48 +12,62 @@
     <div class="container">
         <h1>CRUD Frontend</h1>
         
-        <!-- Create -->
-        <h2>Create</h2>
-        <form ng-submit="createRecord()">
-            <input type="text" ng-model="newTestValue" placeholder="Name">
-            <button type="submit">Create</button>
-        </form>
+        <!-- Tab navigation -->
+        <div>
+            <button ng-click="activeTab = 'create'">Create</button>
+            <button ng-click="activeTab = 'update'">Update</button>
+            <button ng-click="activeTab = 'delete'">Delete</button>
+        </div>
 
-        <!-- Read -->
-        <h2>Read</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="record in records">
-                    <td>{{ record.test_id }}</td>
-                    <td>{{ record.test_value }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Create Tab -->
+        <div ng-show="activeTab === 'create'">
+            <h2>Create</h2>
+            <form ng-submit="createRecord()">
+                <input type="text" ng-model="newItemName" placeholder="Name">
+                <input type="number" ng-model="newItemPrice" placeholder="Price" step="0.01">
+                <button type="submit">Create</button>
+            </form>
+        </div>
+        <!-- Update Tab -->
+        <div ng-show="activeTab === 'update'">
+            <h2>Update</h2>
+            <form ng-submit="updateRecord(updateId, updateName, updatePrice)">
+                <input type="text" ng-model="updateId" placeholder="ID">
+                <input type="text" ng-model="updateName" placeholder="Name">
+                <input type="number" ng-model="updatePrice" placeholder="Price" step="0.01">
+                <button type="submit">Update</button>
+            </form>
+        </div>
 
+        <!-- Delete Tab -->
+        <div ng-show="activeTab === 'delete'">
+            <h2>Delete</h2>
+            <form ng-submit="deleteRecord(deleteId)">
+                <input type="text" ng-model="deleteId" placeholder="Record ID to delete">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
 
-
-
-        <!-- Update -->
-        <h2>Update</h2>
-        <form ng-submit="updateRecord(+updateId, updateName)">
-            <input type="text" ng-model="updateId" placeholder="ID">
-            <input type="text" ng-model="updateName" placeholder="Name">
-            <button type="submit">Update</button>
-        </form>
-
-
-        <!-- Delete -->
-        <h2>Delete</h2>
-        <form ng-submit="deleteRecord(+deleteId)">
-            <input type="text" ng-model="deleteId" placeholder="Record ID to delete">
-            <button type="submit">Delete</button>
-        </form>
+        <!-- Read Tab -->
+        <div>
+            <h2>Read</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="record in records">
+                        <td>{{ record.item_id }}</td>
+                        <td>{{ record.item_name }}</td>
+                        <td>{{ formatPrice(record.item_price) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

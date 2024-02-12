@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const sql = require('mssql');
 const cors = require('cors');
@@ -13,23 +11,22 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const config = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER,
-    database: process.env.DB_NAME,
+    user: 'admin',
+    password: 'pass',
+    server: 'ISC133122\\PLAYGROUND',
+    database: 'TestDB',
+    port: '59569',
     options: {
         encrypt: true,
         trustServerCertificate: true
     }
 };
 
-// Define the directory where your static files (including index.html, styles.css, and app.js) are located
 const publicDirectory = path.join(__dirname, 'public');
 const jsDirectory = path.join(__dirname, 'js');
 
-// Serve static files from the specified directories
 app.use(express.static(publicDirectory));
-app.use('/js', express.static(jsDirectory)); // Serve js files from the 'js' directory
+app.use('/js', express.static(jsDirectory));
 
 app.get('/api/test', async (req, res) => {
     try {
@@ -45,13 +42,14 @@ app.get('/api/test', async (req, res) => {
 
 app.post('/api/test', async (req, res) => {
     try {
-        const { test_value } = req.body;
-        console.log('Creating record with test_value:', test_value);
+        const { item_name, item_price } = req.body; 
+        console.log('Creating record with item_name:', item_name);
         
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('test_value', sql.VarChar(50), test_value)
-            .query('INSERT INTO TestTable (test_value) VALUES (@test_value)');
+            .input('item_name', sql.VarChar(50), item_name)
+            .input('item_price', sql.Decimal(10, 2), item_price)  
+            .query('INSERT INTO TestTable (item_name, item_price) VALUES (@item_name, @item_price)');
         
         res.status(201).send('Record created successfully');
         console.log('Record created successfully');
@@ -63,15 +61,16 @@ app.post('/api/test', async (req, res) => {
 
 app.put('/api/test/:id', async (req, res) => {
     try {
-        const { test_value } = req.body;
+        const { item_name } = req.body;
         const { id } = req.params;
         console.log('Updating record with id:', id);
         
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('test_id', sql.Int, id)
-            .input('test_value', sql.VarChar(50), test_value)
-            .query('UPDATE TestTable SET test_value = @test_value WHERE test_id = @test_id');
+            .input('item_id', sql.Int, id) 
+            .input('item_name', sql.VarChar(50), item_name)
+            .input('item_price', sql.Decimal(10, 2), item_price)
+            .query('UPDATE TestTable SET item_name = @item_name, item_price = @item_price WHERE item_id = @item_id');
         
         res.status(200).send('Record updated successfully');
         console.log('Record updated successfully');
@@ -88,8 +87,8 @@ app.delete('/api/test/:id', async (req, res) => {
         
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('test_id', sql.Int, id)
-            .query('DELETE FROM TestTable WHERE test_id = @test_id');
+            .input('item_id', sql.Int, id) 
+            .query('DELETE FROM TestTable WHERE item_id = @item_id');
         
         res.status(200).send('Record deleted successfully');
         console.log('Record deleted successfully');
