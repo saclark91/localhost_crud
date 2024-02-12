@@ -34,6 +34,7 @@ This is a simple CRUD (Create, Read, Update, Delete) application built using Ang
 The SQL Server database used in this application has the following schema:
 
 - **Table Name**: TestTable
+
 | **Column Name** | **DATA TYPE** |
 |-|-|
 | **test_id** | `INT PRIMARY KEY AUTO_INCREMENT` |
