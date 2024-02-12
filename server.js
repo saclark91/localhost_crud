@@ -1,3 +1,5 @@
+// server.js
+
 const express = require('express');
 const sql = require('mssql');
 const cors = require('cors');
@@ -11,10 +13,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const config = {
-    user: 'admin',
-    password: 'pass',
-    server: 'DESKTOP-RRTU67G\\PLAYGROUND',
-    database: 'Test',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
+    database: process.env.DB_NAME,
     options: {
         encrypt: true,
         trustServerCertificate: true
