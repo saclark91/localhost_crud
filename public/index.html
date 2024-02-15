@@ -28,16 +28,37 @@
                 <button type="submit">Create</button>
             </form>
         </div>
+        
+
+
         <!-- Update Tab -->
         <div ng-show="activeTab === 'update'">
             <h2>Update</h2>
-            <form ng-submit="updateRecord(updateId, updateName, updatePrice)">
-                <input type="text" ng-model="updateId" placeholder="ID">
-                <input type="text" ng-model="updateName" placeholder="Name">
-                <input type="number" ng-model="updatePrice" placeholder="Price" step="0.01">
-                <button type="submit">Update</button>
+            <!-- Form to load record -->
+            <form ng-submit="loadRecord()" ng-hide="recordLoaded">
+                <input type="text" ng-model="updateId" placeholder="Enter Record ID">
+                <button type="submit">Load Record</button>
+            </form>
+            <!-- Form to update record (hidden initially) -->
+            <form ng-submit="updateRecord()" ng-show="recordLoaded">
+                <div class="updateFormDiv">
+                    <label>ID:</label>
+                    <input type="text" ng-model="updateId" placeholder="Enter Record ID">
+                </div>
+                <div class="updateFormDiv">
+                    <label>Name:</label>
+                    <input type="text" ng-model="updateName" placeholder="Name">
+                </div>
+                <div class="updateFormDiv">
+                    <label>Price:</label>
+                    <input type="number" ng-model="updatePrice" placeholder="Price" step="0.01">
+                </div>
+                <button type="submit">Update Record</button>
+                <button type="button" ng-click="cancelUpdate()" class="red-button">Cancel</button>
             </form>
         </div>
+
+
 
         <!-- Delete Tab -->
         <div ng-show="activeTab === 'delete'">

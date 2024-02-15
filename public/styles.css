@@ -64,3 +64,52 @@ th, td {
     text-align: center; /* Center-align text */
 }
 
+
+
+
+/* Tab styles */
+.tab-container {
+    display: flex;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.active-tab {
+    background-color: #45a049;
+}
+
+
+.updateFormDiv {
+    display: flex;
+    align-items: center;
+}
+
+.updateFormDiv label {
+    margin-right: 10px;
+    font-weight: bold;
+    flex-shrink: 0; /* Ensure the label does not grow or shrink */
+    text-align: right;
+    min-width: 50px;
+}
+
+.updateFormDiv input[type="text"] {
+    flex-grow: 1;
+}
+
+
+.red-button {
+    background-color: red;
+    color: white;
+}

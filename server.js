@@ -40,6 +40,34 @@ app.get('/api/test', async (req, res) => {
     }
 });
 
+
+
+app.get('/api/test/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log('Fetching record with id:', id);
+
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('item_id', sql.Int, id)
+            .query('SELECT * FROM TestTable WHERE item_id = @item_id');
+
+        if (result.recordset.length > 0) {
+            res.json(result.recordset[0]); // Return the first (and only) record found
+            console.log('Fetched record:', result.recordset[0]);
+        } else {
+            res.status(404).json({ error: 'Record not found' });
+            console.log('Record not found');
+        }
+    } catch (error) {
+        console.error('Error fetching record:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
+
 app.post('/api/test', async (req, res) => {
     try {
         const { item_name, item_price } = req.body; 

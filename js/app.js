@@ -8,8 +8,34 @@ app.controller('TestController', function ($scope, $http) {
     // Initialize an empty array to store records
     $scope.records = [];
 
-
+    $scope.errorMessage = '';
     $scope.activeTab = 'create';
+    $scope.recordLoaded = false;
+
+    $scope.setActiveTab = function(tabName) {
+        $scope.activeTab = tabName;
+    };
+
+    $scope.isActiveTab = function(tabName) {
+        return $scope.activeTab === tabName;
+    };
+
+
+
+    // Function to reset update fields
+    $scope.resetUpdateFields = function () {
+        $scope.updateName = '';
+        $scope.updatePrice = '';
+        $scope.recordLoaded = false; // Hide the update form
+        $scope.errorMessage = ''; // Clear any previous error message
+    };
+
+    $scope.cancelUpdate = function() {
+        $scope.updateId = '';
+        $scope.updateName = '';
+        $scope.updatePrice = '';
+        $scope.recordLoaded = false;
+    };
 
 
     // Fetch records from the server
@@ -45,6 +71,7 @@ app.controller('TestController', function ($scope, $http) {
         console.log('Updating record with ID:', updateId);
         console.log('Updating record with Name:', updateName);
         console.log('Updating record with Price:', updatePrice);
+        
         // Convert updateId to number (optional if you're confident updateId is already a number)
         var itemId = parseInt(updateId);
         console.log('Parsed item_id:', itemId);
@@ -70,6 +97,39 @@ app.controller('TestController', function ($scope, $http) {
             console.error('Invalid item_id:', updateId);
         }
     };
+
+
+
+    // Load a record
+    $scope.loadRecord = function () {
+        // Fetch record from server based on ID
+        var itemId = parseInt($scope.updateId);
+        console.log('Loading record with ID:', itemId);
+        if (!isNaN(itemId)) {
+            $http.get(`/api/test/${itemId}`)
+                .then(function (response) {
+                    var record = response.data;
+                    if (record) {
+                        // Set remaining fields with current record values
+                        $scope.updateName = record.item_name;
+                        $scope.updatePrice = record.item_price;
+                        $scope.recordLoaded = true; // Set flag to indicate record is loaded
+                    } else {
+                        $scope.errorMessage = 'Record not found!'; // Set error message
+                        $scope.resetUpdateFields(); // Reset fields if record not found
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error fetching record:', error);
+                    $scope.errorMessage = 'Error fetching record. Please try again.'; // Set error message
+                    $scope.resetUpdateFields(); // Reset fields on error
+                });
+        } else {
+            $scope.errorMessage = 'Invalid item ID!'; // Set error message for invalid item ID
+            console.error('Invalid item_id:', $scope.updateId);
+        }
+    };
+
 
     // Delete a record
     $scope.deleteRecord = function (deleteId) {
